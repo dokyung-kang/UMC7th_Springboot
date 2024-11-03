@@ -50,7 +50,10 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String email;
 
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer point;
+
+    private Integer age;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
