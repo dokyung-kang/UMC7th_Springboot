@@ -14,15 +14,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@Entity     // JPA가 entity로 인식하며 테이블과 링크될 클래스임을 나타냄
+@Getter     // 자동으로 getter 메서드를 생성 - 코드에는 없지만 작성한 것과 동일한 효과
+@Builder    // 해당 클래스의 빌더 패턴 클래스를 생성 - 생성자 상단에 생성자에 포함딘 필드만 빌더에 포함
+@NoArgsConstructor(access = AccessLevel.PROTECTED)      // 매개변수가 없는 기본 생성자를 자동으로 만들어줌
+@AllArgsConstructor     // 모든 필드에 대한 생성자를 자동으로 만들어줌 (모든 필드를 파라미터로 가짐)
 public class Member extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // PK로 저장해줌
+    @GeneratedValue(strategy = GenerationType.IDENTITY)     // PK 생성 규칙 - 기본값을 자동으로 생성
     private Long id;
 
     @Column(nullable = false, length = 20)
