@@ -59,11 +59,20 @@ public class Application {
 
 
 			// 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
-			System.out.println("Executing findMissionByMemberIdAndRegionService with parameters:");
-			System.out.println("memberId: " + memberId);
-			System.out.println("status: " + status);
-			System.out.println("status: " + status);
+//			System.out.println("Executing findMissionByMemberIdAndRegionService with parameters:");
+//			System.out.println("memberId: " + memberId);
+//			System.out.println("status: " + status);
+//			System.out.println("status: " + status);
+//
+//			missionService.findMissionByMemberIdAndRegionService(memberId, regionId, currentMissionId)
+//					.forEach(System.out::println);
 
+			// 마이페이지
+			System.out.println("Executing findMemberByMemberIdService with parameters:");
+			System.out.println("memberId: " + memberId);
+
+			MemberResponseDTO.MemberInfoDTO member = memberService.findMemberByMemberIdService(memberId);
+			System.out.println(member);
 
 		};
 	}
