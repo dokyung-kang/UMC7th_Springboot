@@ -57,6 +57,15 @@ public class Application {
 //			missionService.findMissionByMemberIdAndStatusService(memberId, status, currentMissionId)
 //					.forEach(System.out::println);
 
+			// 리뷰 작성하는 쿼리
+//			System.out.println("Executing createRevuew with parameters:");
+//			System.out.println("memberId: " + memberId);
+//			System.out.println("storeId: " + storeId);
+//			System.out.println("body: " + body);
+//			System.out.println("score: " + score);
+//
+//			Long insertedReviewId = reviewService.createReviewService(memberId, storeId, body, score);
+//			System.out.println(insertedReviewId);
 
 			// 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
 //			System.out.println("Executing findMissionByMemberIdAndRegionService with parameters:");
@@ -68,11 +77,11 @@ public class Application {
 //					.forEach(System.out::println);
 
 			// 마이페이지
-			System.out.println("Executing findMemberByMemberIdService with parameters:");
-			System.out.println("memberId: " + memberId);
-
-			MemberResponseDTO.MemberInfoDTO member = memberService.findMemberByMemberIdService(memberId);
-			System.out.println(member);
+//			System.out.println("Executing findMemberByMemberIdService with parameters:");
+//			System.out.println("memberId: " + memberId);
+//
+//			MemberResponseDTO.MemberInfoDTO member = memberService.findMemberByMemberIdService(memberId);
+//			System.out.println(member);
 
 		};
 	}
