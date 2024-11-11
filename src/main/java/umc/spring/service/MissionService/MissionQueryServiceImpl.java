@@ -34,4 +34,13 @@ public class MissionQueryServiceImpl implements MissionQueryService {
         return filteredMissions;
     }
 
+    // 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
+    @Override
+    public List<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegionService(Long memberId, Long regionId, Long currentMissionId) {
+        List<MissionResponseDTO.HomeMissionDTO> filteredMissions = missionRepository.findMissionByMemberIdAndRegion(memberId, regionId, currentMissionId);
+
+        filteredMissions.forEach(mission -> System.out.println("Mission: " + mission));
+
+        return filteredMissions;
+    }
 }

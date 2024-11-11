@@ -46,5 +46,38 @@ public class MissionResponseDTO {
 
     }
 
+    // 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class HomeMissionDTO{
+        private Long missionId;
+        private String storeName;
+        private Integer reward;
+        private String missionSpec;
+        private Long daysLeft;
 
+        public static HomeMissionDTO from(Mission mission, String storeName, Integer reward, String missionSpec, Long daysLeft) {
+            return HomeMissionDTO.builder()
+                    .missionId(mission.getId())
+                    .storeName(storeName)
+                    .reward(reward)
+                    .missionSpec(missionSpec)
+                    .daysLeft(daysLeft)
+                    .build();
+        }
+
+        @Override
+        public String toString() {
+            return "HomeMissionDTO{" +
+                    "missionId=" + missionId +
+                    ", storeName='" + storeName + '\'' +
+                    ", reward=" + reward +
+                    ", missionSpec='" + missionSpec + '\'' +
+                    ", daysLeft=" + daysLeft +
+                    '}';
+        }
+
+    }
 }

@@ -66,4 +66,50 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegion(Long memberId, Long regionId, Long currentMissionId) {
+        BooleanBuilder predicate = new BooleanBuilder();
+//
+//        if (memberId != null) {
+//            predicate.and(member.id.eq(memberId));
+//        }
+
+        if (regionId != null) {
+            predicate.and(region.id.eq(regionId));
+        }
+
+        predicate.and(mission.id.notIn(
+                JPAExpressions
+                        .select(memberMission.mission.id)
+                        .from(memberMission)
+                        .where(memberMission.member.id.eq(memberId))
+        ));
+
+        predicate.and(mission.deadline.gt(LocalDate.now()));
+
+        if (currentMissionId != null) {
+            predicate.and(mission.id.lt(currentMissionId));
+        }
+        NumberTemplate<Long> days_left = Expressions.numberTemplate(Long.class,
+                "datediff({0}, {1})",
+                mission.deadline,
+                Expressions.constant(LocalDate.now()));
+
+        return jpaQueryFactory
+                .select(Projections.constructor(
+                        MissionResponseDTO.HomeMissionDTO.class,
+                        mission.id,
+                        store.name,
+                        mission.reward,
+                        mission.missionSpec,
+                        days_left
+                ))
+                .from(mission)
+                .join(mission.store, store)
+                .join(store.region, region)
+                .where(predicate)
+                .orderBy(mission.id.desc())
+                .limit(10)
+                .fetch();
+    }
 }
