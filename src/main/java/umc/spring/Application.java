@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import umc.spring.domain.Member;
 import umc.spring.domain.enums.MissionStatus;
@@ -37,8 +39,9 @@ public class Application {
 			MissionStatus status = MissionStatus.COMPLETE;
 			Long currentMissionId = 10L;
 			String body = "오 맛나다!!";
-			Long regionId = 1L;
+			Long regionId = null;
 			Long storeId = 1L;
+			Pageable pageable = PageRequest.of(0, 10);
 
 			// 쿼리 메서드 호출 및 쿼리 문자열과 파라미터 출력
 			// 실습
@@ -50,12 +53,12 @@ public class Application {
 //					.forEach(System.out::println);
 
 			// 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리
-//			System.out.println("Executing findMissionsByMemberIdAndStatus with parameters:");
-//			System.out.println("memberId: " + memberId);
-//			System.out.println("status: " + status);
-//
-//			missionService.findMissionByMemberIdAndStatusService(memberId, status, currentMissionId)
-//					.forEach(System.out::println);
+			System.out.println("Executing findMissionsByMemberIdAndStatus with parameters:");
+			System.out.println("memberId: " + memberId);
+			System.out.println("status: " + status);
+
+			missionService.findMissionByMemberIdAndStatusService(memberId, status, currentMissionId, pageable)
+					.forEach(System.out::println);
 
 			// 리뷰 작성하는 쿼리
 //			System.out.println("Executing createRevuew with parameters:");
@@ -73,7 +76,7 @@ public class Application {
 //			System.out.println("status: " + status);
 //			System.out.println("status: " + status);
 //
-//			missionService.findMissionByMemberIdAndRegionService(memberId, regionId, currentMissionId)
+//			missionService.findMissionByMemberIdAndRegionService(memberId, regionId, currentMissionId, pageable)
 //					.forEach(System.out::println);
 
 			// 마이페이지

@@ -22,11 +22,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     // 리뷰 작성하는 쿼리
     @Override
-    public Long createReviewService(Long memberId, Long storeId, String body, Float score) {
-        Long reviewId = reviewRepository.createReview(memberId, storeId, body, score);
-
-        System.out.println("reviewId: " + reviewId);
-
-        return reviewId;
+    public void createReviewService(Long memberId, Long storeId, String body, Float score) {
+        reviewRepository.createReview(memberId, storeId, body, score);
     }
 }

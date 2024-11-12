@@ -12,5 +12,5 @@ public interface ReviewQueryService {
     Optional<Review> findReview(Long id);
 
     // 리뷰 작성하는 쿼리
-    Long createReviewService(Long memberId, Long storeId, String body, Float score);
+    void createReviewService(Long memberId, Long storeId, String body, Float score);
 }

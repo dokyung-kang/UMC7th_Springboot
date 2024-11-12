@@ -1,6 +1,8 @@
 package umc.spring.service.MissionService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,8 @@ public class MissionQueryServiceImpl implements MissionQueryService {
 
     // 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리
     @Override
-    public List<MissionResponseDTO.MissionStatusDTO> findMissionByMemberIdAndStatusService(Long memberId, MissionStatus status, Long currentMissionId) {
-        List<MissionResponseDTO.MissionStatusDTO> filteredMissions = missionRepository.findMissionByMemberIdAndStatus(memberId, status, currentMissionId);
+    public Page<MissionResponseDTO.MissionStatusDTO> findMissionByMemberIdAndStatusService(Long memberId, MissionStatus status, Long currentMissionId, Pageable pageable) {
+        Page<MissionResponseDTO.MissionStatusDTO> filteredMissions = missionRepository.findMissionByMemberIdAndStatus(memberId, status, currentMissionId, pageable);
 
         filteredMissions.forEach(mission -> System.out.println("Mission: " + mission));
 
@@ -36,8 +38,8 @@ public class MissionQueryServiceImpl implements MissionQueryService {
 
     // 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
     @Override
-    public List<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegionService(Long memberId, Long regionId, Long currentMissionId) {
-        List<MissionResponseDTO.HomeMissionDTO> filteredMissions = missionRepository.findMissionByMemberIdAndRegion(memberId, regionId, currentMissionId);
+    public Page<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegionService(Long memberId, Long regionId, Long currentMissionId, Pageable pageable) {
+        Page<MissionResponseDTO.HomeMissionDTO> filteredMissions = missionRepository.findMissionByMemberIdAndRegion(memberId, regionId, currentMissionId, pageable);
 
         filteredMissions.forEach(mission -> System.out.println("Mission: " + mission));
 

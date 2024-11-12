@@ -20,7 +20,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     // 리뷰 작성하는 쿼리
     @Transactional
     @Override
-    public Long createReview(Long memberId, Long storeId, String body, Float score) {
+    public void createReview(Long memberId, Long storeId, String body, Float score) {
         Member memberEntity = jpaQueryFactory
                 .selectFrom(member)
                 .where(member.id.eq(memberId))
@@ -39,7 +39,5 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .build();
 
         entityManager.persist(review);
-
-        return review.getId();
     }
 }

@@ -8,6 +8,9 @@ import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import umc.spring.domain.QMember;
 import umc.spring.domain.QMission;
@@ -33,7 +36,7 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
 
     // 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리
     @Override
-    public List<MissionResponseDTO.MissionStatusDTO> findMissionByMemberIdAndStatus(Long memberId, MissionStatus status, Long currentMissionId) {
+    public Page<MissionResponseDTO.MissionStatusDTO> findMissionByMemberIdAndStatus(Long memberId, MissionStatus status, Long currentMissionId, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
 
         if (memberId != null) {
@@ -48,10 +51,10 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
             predicate.and(memberMission.mission.id.lt(currentMissionId));
         }
 
-        return jpaQueryFactory
+        List<MissionResponseDTO.MissionStatusDTO> missionStatusList =  jpaQueryFactory
                 .select(Projections.constructor(
                         MissionResponseDTO.MissionStatusDTO.class,
-                        mission.id,
+                        memberMission.id,
                         store.name,
                         mission.reward,
                         mission.missionSpec,
@@ -61,13 +64,31 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                 .join(memberMission.mission, mission)
                 .join(mission.store, store)
                 .where(predicate)
-                .orderBy(mission.id.desc())
-                .limit(10)
+                .orderBy(memberMission.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        int total = jpaQueryFactory
+                .select(Projections.constructor(
+                        MissionResponseDTO.MissionStatusDTO.class,
+                        memberMission.id,
+                        store.name,
+                        mission.reward,
+                        mission.missionSpec,
+                        memberMission.status
+                ))
+                .from(memberMission)
+                .join(memberMission.mission, mission)
+                .join(mission.store, store)
+                .where(predicate)
+                .fetch().size();
+
+        return new PageImpl<>(missionStatusList, pageable, total);
     }
 
     @Override
-    public List<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegion(Long memberId, Long regionId, Long currentMissionId) {
+    public Page<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegion(Long memberId, Long regionId, Long currentMissionId, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
 //
 //        if (memberId != null) {
@@ -95,7 +116,7 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                 mission.deadline,
                 Expressions.constant(LocalDate.now()));
 
-        return jpaQueryFactory
+        List<MissionResponseDTO.HomeMissionDTO> homeMissionList = jpaQueryFactory
                 .select(Projections.constructor(
                         MissionResponseDTO.HomeMissionDTO.class,
                         mission.id,
@@ -109,7 +130,26 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                 .join(store.region, region)
                 .where(predicate)
                 .orderBy(mission.id.desc())
-                .limit(10)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        int total = jpaQueryFactory
+                .select(Projections.constructor(
+                        MissionResponseDTO.HomeMissionDTO.class,
+                        mission.id,
+                        store.name,
+                        mission.reward,
+                        mission.missionSpec,
+                        days_left
+                ))
+                .from(mission)
+                .join(mission.store, store)
+                .join(store.region, region)
+                .where(predicate)
+                .orderBy(mission.id.desc())
+                .fetch().size();
+
+        return new PageImpl<>(homeMissionList, pageable, total);
     }
 }
