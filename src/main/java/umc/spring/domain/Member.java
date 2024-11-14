@@ -1,6 +1,9 @@
 package umc.spring.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.MemberStatus;
@@ -19,6 +22,8 @@ import java.util.List;
 @Builder    // 해당 클래스의 빌더 패턴 클래스를 생성 - 생성자 상단에 생성자에 포함딘 필드만 빌더에 포함
 @NoArgsConstructor(access = AccessLevel.PROTECTED)      // 매개변수가 없는 기본 생성자를 자동으로 만들어줌
 @AllArgsConstructor     // 모든 필드에 대한 생성자를 자동으로 만들어줌 (모든 필드를 파라미터로 가짐)
+@DynamicUpdate
+@DynamicInsert
 public class Member extends BaseEntity {
 
     @Id // PK로 저장해줌
@@ -50,11 +55,11 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+    //    @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
-    private Integer point;
+    @ColumnDefault("0")
+    private Integer point = 0;
 
     private Integer age;
 
