@@ -53,12 +53,12 @@ public class Application {
 //					.forEach(System.out::println);
 
 			// 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리
-			System.out.println("Executing findMissionsByMemberIdAndStatus with parameters:");
-			System.out.println("memberId: " + memberId);
-			System.out.println("status: " + status);
-
-			missionService.findMissionByMemberIdAndStatusService(memberId, status, currentMissionId, pageable)
-					.forEach(System.out::println);
+//			System.out.println("Executing findMissionsByMemberIdAndStatus with parameters:");
+//			System.out.println("memberId: " + memberId);
+//			System.out.println("status: " + status);
+//
+//			missionService.findMissionByMemberIdAndStatusService(memberId, status, currentMissionId, pageable)
+//					.forEach(System.out::println);
 
 			// 리뷰 작성하는 쿼리
 //			System.out.println("Executing createRevuew with parameters:");
