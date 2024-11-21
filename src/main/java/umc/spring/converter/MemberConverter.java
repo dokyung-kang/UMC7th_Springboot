@@ -28,6 +28,7 @@ public class MemberConverter {
             case 2:
                 gender = Gender.FEMALE;
                 break;
+            case 0:
             case 3:
                 gender = Gender.NONE;
                 break;
