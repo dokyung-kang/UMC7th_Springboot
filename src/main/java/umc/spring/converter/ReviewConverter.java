@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ReviewConverter {
+
+    // 리뷰 작성
     public static ReviewResponseDTO.CreateReviewResultDTO toCreateReviewResultDTO(Review review){
         return ReviewResponseDTO.CreateReviewResultDTO.builder()
                 .reviewId(review.getId())
@@ -16,10 +18,9 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static Review toReview(ReviewRequestDTO.CreateReviewDTO request, Store store){
+    public static Review toReview(ReviewRequestDTO.CreateReviewDTO request){
 
         return Review.builder()
-                .store(store)
                 .title(request.getTitle())
                 .body(request.getBody())
                 .score(request.getScore())

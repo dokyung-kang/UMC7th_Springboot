@@ -43,10 +43,12 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     @Transactional
     public Review createReview(ReviewRequestDTO.CreateReviewDTO request) {
 
+        Review newReview = ReviewConverter.toReview(request);
+
+        // 가게 설정
         Store store = storeRepository.findById(request.getStoreId())
                 .orElseThrow(() -> new ReviewHandler(ErrorStatus.STORE_NOT_FOUND));
-
-        Review newReview = ReviewConverter.toReview(request, store);
+        newReview.setStore(store);
 
         // 유저 하드 코딩
         Member member = memberRepository.findById(1L)
@@ -54,13 +56,13 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         System.out.println("member " + member);
         newReview.setMember(member);
 
+        // 리뷰 사진 링크
         List<ReviewImage> reviewImageList = request.getReviewImageList().stream()
                 .map(imageUrl -> ReviewImage.builder()
                         .imageUrl(imageUrl)
                         .review(newReview)
                         .build())
                 .toList();
-
         newReview.getReviewImageList().addAll(reviewImageList);
 
         return reviewRepository.save(newReview);
