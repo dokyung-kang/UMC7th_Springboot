@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MissionResponseDTO {
@@ -79,5 +80,15 @@ public class MissionResponseDTO {
                     '}';
         }
 
+    }
+
+    // 가게의 미션을 도전 중인 미션에 추가(미션 도전하기)
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateMemberMissionResultDTO{
+        Long memberMissionId;
+        LocalDateTime createdAt;
     }
 }
