@@ -6,9 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import umc.spring.apiPaylaod.code.status.ErrorStatus;
+import umc.spring.apiPaylaod.exception.handler.MissionHandler;
+import umc.spring.converter.MissionConverter;
 import umc.spring.domain.Mission;
+import umc.spring.domain.Store;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.repository.MissionRepository.MissionRepository;
+import umc.spring.repository.StoreRepository.StoreRepository;
+import umc.spring.web.dto.MissionRequestDTO;
 import umc.spring.web.dto.MissionResponseDTO;
 
 import java.util.List;
@@ -16,10 +22,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MissionQueryServiceImpl implements MissionQueryService {
 
     private final MissionRepository missionRepository;
+    private final StoreRepository storeRepository;
 
     @Override
     public Optional<Mission> findMission(Long id) {
@@ -44,5 +51,18 @@ public class MissionQueryServiceImpl implements MissionQueryService {
         filteredMissions.forEach(mission -> System.out.println("Mission: " + mission));
 
         return filteredMissions;
+    }
+
+    // 가게에 미션 추가
+    @Override
+    public Mission createMission(MissionRequestDTO.CreateMissionDTO request){
+
+        Mission newMission = MissionConverter.toMission(request);
+
+        Store store = storeRepository.findById(request.getStoreId())
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.STORE_NOT_FOUND));
+        newMission.setStore(store);
+
+        return missionRepository.save(newMission);
     }
 }

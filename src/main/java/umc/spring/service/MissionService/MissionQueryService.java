@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
+import umc.spring.web.dto.MissionRequestDTO;
 import umc.spring.web.dto.MissionResponseDTO;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface MissionQueryService {
     // 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
     Page<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegionService(Long memberId, Long regionId, Long currentMissionId, Pageable pageable);
 
+    // 가게에 미션 추가
+    Mission createMission(MissionRequestDTO.CreateMissionDTO request);
 }
