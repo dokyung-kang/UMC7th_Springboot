@@ -82,7 +82,6 @@ public class MissionResponseDTO {
 
     }
 
-
     // 가게에 미션 추가
     @Builder
     @Getter
@@ -90,6 +89,16 @@ public class MissionResponseDTO {
     @AllArgsConstructor
     public static class CreateMissionResultDTO{
         Long missionId;
+        LocalDateTime createdAt;
+    }
+  
+    // 가게의 미션을 도전 중인 미션에 추가(미션 도전하기)
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateMemberMissionResultDTO{
+        Long memberMissionId;
         LocalDateTime createdAt;
     }
 }
