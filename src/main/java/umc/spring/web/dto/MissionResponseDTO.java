@@ -161,4 +161,15 @@ public class MissionResponseDTO {
                     .build();
         }
     }
+
+    // 진행중인 미션 진행 완료로 바꾸기
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CompleteMemberMissionResultDTO{
+        Long memberMissionId;
+        MissionStatus status;
+        LocalDateTime createdAt;
+    }
 }

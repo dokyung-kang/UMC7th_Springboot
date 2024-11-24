@@ -25,4 +25,14 @@ public class MemberMissionConverter {
                 .status(status)
                 .build();
     }
+
+    // 진행중인 미션 진행 완료로 바꾸기
+    public static MissionResponseDTO.CompleteMemberMissionResultDTO toCompleteMemberMissionResultDTO(MemberMission memberMission){
+        return MissionResponseDTO.CompleteMemberMissionResultDTO.builder()
+                .memberMissionId(memberMission.getId())
+                .status(memberMission.getStatus())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
 }
