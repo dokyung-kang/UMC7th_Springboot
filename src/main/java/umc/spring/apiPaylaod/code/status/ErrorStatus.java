@@ -39,6 +39,9 @@ public enum ErrorStatus implements BaseErrorCode {
     // 지역 관련 에러
     REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "지역이 없습니다."),
 
+    // 페이지 관련 에러
+    PAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "PAGE4001", "해당하는 페이지가 존재하지 않습니다."),
+    
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
 

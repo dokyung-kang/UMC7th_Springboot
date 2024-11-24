@@ -1,14 +1,18 @@
 package umc.spring.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPaylaod.code.status.ErrorStatus;
 import umc.spring.apiPaylaod.exception.handler.StoreHandler;
 import umc.spring.converter.StoreConverter;
 import umc.spring.domain.Region;
+import umc.spring.domain.Review;
 import umc.spring.domain.Store;
 import umc.spring.repository.RegionRepository.RegionRepository;
+import umc.spring.repository.ReviewRepository.ReviewRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
 import umc.spring.web.dto.StoreRequestDTO;
 
@@ -22,6 +26,7 @@ public class StoreQueryServiceImpl implements StoreQueryService{
 
     private final StoreRepository storeRepository;
     private final RegionRepository regionRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     public Optional<Store> findStore(Long id) {
@@ -49,5 +54,14 @@ public class StoreQueryServiceImpl implements StoreQueryService{
         newStore.setRegion(region);
 
         return storeRepository.save(newStore);
+    }
+
+    // 가게 리뷰 목록 조회
+    @Override
+    public Page<Review> getReviewList(Long StoreId, Integer page) {
+        Store store = storeRepository.findById(StoreId).get();
+
+        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        return StorePage;
     }
 }
