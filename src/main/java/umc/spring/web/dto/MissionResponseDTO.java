@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class MissionResponseDTO {
 
@@ -100,5 +102,29 @@ public class MissionResponseDTO {
     public static class UpdateMemberMissionResultDTO{
         Long memberMissionId;
         LocalDateTime createdAt;
+    }
+
+    // 특정 가게의 미션 목록
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionPreViewListDTO {
+        List<MissionPreViewDTO> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionPreViewDTO {
+        Integer reward;
+        String missionSpec;
+        LocalDate deadline;
+        LocalDate createdAt;
     }
 }

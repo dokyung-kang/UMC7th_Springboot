@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPaylaod.code.status.ErrorStatus;
 import umc.spring.apiPaylaod.exception.handler.StoreHandler;
 import umc.spring.converter.StoreConverter;
+import umc.spring.domain.Mission;
 import umc.spring.domain.Region;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.repository.RegionRepository.RegionRepository;
 import umc.spring.repository.ReviewRepository.ReviewRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
@@ -27,6 +29,7 @@ public class StoreQueryServiceImpl implements StoreQueryService{
     private final StoreRepository storeRepository;
     private final RegionRepository regionRepository;
     private final ReviewRepository reviewRepository;
+    private final MissionRepository missionRepository;
 
     @Override
     public Optional<Store> findStore(Long id) {
@@ -62,6 +65,15 @@ public class StoreQueryServiceImpl implements StoreQueryService{
         Store store = storeRepository.findById(StoreId).get();
 
         Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        return StorePage;
+    }
+
+    // 특정 가게의 미션 목록
+    @Override
+    public Page<Mission> getMissionList(Long StoreId, Integer page) {
+        Store store = storeRepository.findById(StoreId).get();
+
+        Page<Mission> StorePage = missionRepository.findAllByStore(store, PageRequest.of(page, 10));
         return StorePage;
     }
 }
