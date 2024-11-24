@@ -3,6 +3,7 @@ package umc.spring.repository.MissionRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import umc.spring.domain.Member;
 import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.web.dto.MissionResponseDTO;
@@ -17,4 +18,6 @@ public interface MissionRepositoryCustom {
     // 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록)
     Page<MissionResponseDTO.HomeMissionDTO> findMissionByMemberIdAndRegion(Long memberId, Long regionId, Long currentMissionId, Pageable pageable);
 
+    // 내가 진행중인 미션 목록
+    Page<MissionResponseDTO.MyMissionPreViewDTO> findMissionsByMemberIdAndStatus(Member member, Integer status, Pageable pageable);
 }

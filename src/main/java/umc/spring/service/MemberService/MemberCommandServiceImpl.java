@@ -11,13 +11,16 @@ import umc.spring.converter.MemberConverter;
 import umc.spring.converter.MemberPreferConverter;
 import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Member;
+import umc.spring.domain.Mission;
 import umc.spring.domain.Review;
 import umc.spring.domain.mapping.MemberPrefer;
 import umc.spring.repository.FoodCategoryRepository;
 import umc.spring.repository.MemberRepository.MemberRepository;
+import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.repository.ReviewRepository.ReviewRepository;
 import umc.spring.service.FoodCategoryService.FoodCategoryService;
 import umc.spring.web.dto.MemberRequestDTO;
+import umc.spring.web.dto.MissionResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +32,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final FoodCategoryService foodCategoryService;
+    private final MissionRepository missionRepository;
 
     @Override
     @Transactional
@@ -52,6 +56,14 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
         Member member = memberRepository.findById(memberId).get();
         Page<Review> MemberPage = reviewRepository.findAllByMember(member, PageRequest.of(page, 10));
+        return MemberPage;
+    }
+
+    // 내가 진행중인 미션 목록
+    public Page<MissionResponseDTO.MyMissionPreViewDTO> getMissionList(Long memberId, Integer status, Integer page){
+
+        Member member = memberRepository.findById(memberId).get();
+        Page<MissionResponseDTO.MyMissionPreViewDTO> MemberPage = missionRepository.findMissionsByMemberIdAndStatus(member, status, PageRequest.of(page, 10));
         return MemberPage;
     }
 }
