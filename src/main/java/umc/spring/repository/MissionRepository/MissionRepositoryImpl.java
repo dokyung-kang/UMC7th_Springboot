@@ -1,6 +1,7 @@
 package umc.spring.repository.MissionRepository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -12,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import umc.spring.domain.QMember;
-import umc.spring.domain.QMission;
-import umc.spring.domain.QRegion;
-import umc.spring.domain.QStore;
+import umc.spring.domain.*;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.QMemberMission;
 import umc.spring.web.dto.MissionResponseDTO;
@@ -151,5 +149,51 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                 .fetch().size();
 
         return new PageImpl<>(homeMissionList, pageable, total);
+    }
+
+    // 내가 진행중인 미션 목록
+    @Override
+    public Page<MissionResponseDTO.MyMissionPreViewDTO> findMissionsByMemberIdAndStatus(Member member, Integer status, Pageable pageable){
+        BooleanBuilder predicate = new BooleanBuilder();
+
+        MissionStatus missionStatus = MissionStatus.CHALLENGING;
+        if(status == 1)
+            missionStatus = MissionStatus.COMPLETE;
+
+        predicate.and(memberMission.member.eq(member));
+        predicate.and(memberMission.status.eq(missionStatus));
+
+        List<MissionResponseDTO.MyMissionPreViewDTO> missionList =  jpaQueryFactory
+                .select(Projections.constructor(
+                        MissionResponseDTO.MyMissionPreViewDTO.class,
+                        store.name.as("storeName"),
+                        memberMission.status,
+                        mission.reward,
+                        mission.missionSpec
+                ))
+                .from(memberMission)
+                .join(memberMission.mission, mission)
+                .join(mission.store, store)
+                .where(predicate)
+                .orderBy(memberMission.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        int total = jpaQueryFactory
+                .select(Projections.constructor(
+                        MissionResponseDTO.MyMissionPreViewDTO.class,
+                        store.name,
+                        memberMission.status,
+                        mission.reward,
+                        mission.missionSpec
+                ))
+                .from(memberMission)
+                .join(memberMission.mission, mission)
+                .join(mission.store, store)
+                .where(predicate)
+                .fetch().size();
+
+        return new PageImpl<>(missionList, pageable, total);
     }
 }

@@ -127,4 +127,38 @@ public class MissionResponseDTO {
         LocalDate deadline;
         LocalDate createdAt;
     }
+
+    // 내가 진행중/진행완료인 미션 목록
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionPreViewListDTO {
+        List<MyMissionPreViewDTO> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionPreViewDTO {
+        String storeName;
+        MissionStatus status;
+        Integer reward;
+        String missionSpec;
+
+        public static MyMissionPreViewDTO from(String storeName, MissionStatus status, Integer reward, String missionSpec) {
+            return MyMissionPreViewDTO.builder()
+                    .storeName(storeName)
+                    .status(status)
+                    .reward(reward)
+                    .missionSpec(missionSpec)
+                    .build();
+        }
+    }
 }
