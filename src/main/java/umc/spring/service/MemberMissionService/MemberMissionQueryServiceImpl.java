@@ -56,4 +56,16 @@ public class MemberMissionQueryServiceImpl implements MemberMissionQueryService 
     public boolean existMissionForMember(Long missionId, Long memberId){
         return memberMissionRepository.existsByMissionIdAndMemberId(missionId, memberId);
     }
+
+    // 진행중인 미션 진행 완료로 바꾸기
+    @Override
+    public MemberMission completeMemberMission(Long memberMissionId){
+        MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
+
+        memberMissionRepository.updateStatusToComplete(memberMissionId);
+
+        return memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
+    }
 }

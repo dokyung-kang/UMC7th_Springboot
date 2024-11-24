@@ -21,4 +21,7 @@ public interface MemberMissionQueryService {
 
     // 이미 도전중/도전완료 미션인지 유무
     boolean existMissionForMember(Long missionId, Long memberId);
+
+    // 진행중인 미션 진행 완료로 바꾸기
+    MemberMission completeMemberMission(Long memberMissionId);
 }
