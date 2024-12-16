@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline # 알맞은 이름으로 변경
 
 on:
   push:
