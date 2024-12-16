@@ -34,7 +34,8 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
                 .selectFrom(memberMission)
                 .where(memberMission.mission.id.eq(missionId)
                         .and(memberMission.member.id.eq(memberId)))
-                .fetchCount();
+                .fetch()
+                .size();
 
         return count > 0;
     }

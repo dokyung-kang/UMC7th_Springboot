@@ -29,9 +29,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+        Map<String, Object> properties = (Map<String, Object>) attributes.getOrDefault("properties", new HashMap<>());
 
-        String nickname = (String) properties.get("nickname");
+        String nickname = (String) properties.getOrDefault("nickname", "Unknown");
         String email = nickname + "@kakao.com"; // 임시 이메일 생성
 
         // 사용자 정보 저장 또는 업데이트
