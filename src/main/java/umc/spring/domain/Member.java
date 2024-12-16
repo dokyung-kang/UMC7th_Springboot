@@ -68,11 +68,12 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Builder.Default
     @ColumnDefault("0")
     private Integer point = 0;
 
     @Builder.Default
-    private Integer age;
+    private Integer age = 0;
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
