@@ -34,6 +34,7 @@ public class Store extends BaseEntity {
     @ColumnDefault("0")
     private Float score;
 
+    @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
