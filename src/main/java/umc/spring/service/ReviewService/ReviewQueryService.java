@@ -2,6 +2,7 @@ package umc.spring.service.ReviewService;
 
 
 
+import org.springframework.web.multipart.MultipartFile;
 import umc.spring.domain.Review;
 import umc.spring.web.dto.ReviewRequestDTO;
 
@@ -16,5 +17,5 @@ public interface ReviewQueryService {
     void createReviewService(Long memberId, Long storeId, String body, Float score);
 
     // 리뷰 작성
-    Review createReview(ReviewRequestDTO.CreateReviewDTO request);
+    Review createReview(ReviewRequestDTO.CreateReviewDTO request, MultipartFile reviewPicture);
 }

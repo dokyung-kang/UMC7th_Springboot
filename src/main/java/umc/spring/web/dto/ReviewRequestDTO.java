@@ -20,6 +20,6 @@ public class ReviewRequestDTO {
         String title;
         @NotNull
         String body;
-        List<String> reviewImageList;
+//        List<String> reviewImageList;
     }
 }
