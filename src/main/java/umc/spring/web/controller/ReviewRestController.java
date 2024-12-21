@@ -1,11 +1,12 @@
 package umc.spring.web.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import umc.spring.apiPaylaod.ApiResponse;
 import umc.spring.converter.ReviewConverter;
 import umc.spring.domain.Review;
@@ -20,9 +21,11 @@ public class ReviewRestController {
     private final ReviewQueryService reviewQueryService;
 
     // 리뷰 작성
-    @PostMapping("/")
-    public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> createReview(@RequestBody @Valid ReviewRequestDTO.CreateReviewDTO request){
-        Review review = reviewQueryService.createReview(request);
+    @PostMapping(value = "/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> createReview(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                                                                                 @RequestPart("request") @Valid ReviewRequestDTO.CreateReviewDTO request,
+                                                                             @RequestPart("reviewPicture")MultipartFile reviewPicture){
+        Review review = reviewQueryService.createReview(request, reviewPicture);
         return ApiResponse.onSuccess(ReviewConverter.toCreateReviewResultDTO(review));
     }
 }

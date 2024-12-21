@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: default
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -17,6 +19,19 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+  cloud:
+    aws:
+      s3:
+        bucket: umc-7th-test1
+        path:
+          review: reviews
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+      credentials:
+        accessKey: ${AWS_SECRET_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_ACCESS_KEY}
   security:
     oauth2:
       client:
