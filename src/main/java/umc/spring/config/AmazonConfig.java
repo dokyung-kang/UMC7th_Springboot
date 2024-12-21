@@ -18,10 +18,10 @@ public class AmazonConfig {
 
     private AWSCredentials awsCredentials;
 
-    @Value("${AWS_ACCESS_KEY_ID}")
+    @Value("${secrets.AWS_ACCESS_KEY_ID}")
     private String accessKey;
 
-    @Value("${AWS_SECRET_ACCESS_KEY}")
+    @Value("${secrets.AWS_SECRET_ACCESS_KEY}")
     private String secretKey;
 
 //    @Value("${cloud.aws.region.static}")

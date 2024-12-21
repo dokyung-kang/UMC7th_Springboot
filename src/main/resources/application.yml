@@ -22,7 +22,7 @@ spring:
   cloud:
     aws:
       s3:
-        bucket: umc-6th-bucket
+        bucket: umc-7th-test1
         path:
           review: reviews
       region:
