@@ -18,20 +18,20 @@ public class AmazonConfig {
 
     private AWSCredentials awsCredentials;
 
-    @Value("${secrets.AWS_ACCESS_KEY_ID}")
+    @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
 
-    @Value("${secrets.AWS_SECRET_ACCESS_KEY}")
+    @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
-//    @Value("${cloud.aws.region.static}")
-    private String region = "ap-northeast-2";
+    @Value("${cloud.aws.region.static}")
+    private String region;
 
-//    @Value("${cloud.aws.s3.bucket}")
-    private String bucket = "umc-7th-test1";
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
-//    @Value("${cloud.aws.s3.path.review}")
-    private String reviewPath = "reviews";
+    @Value("${cloud.aws.s3.path.review}")
+    private String reviewPath;
 
     @PostConstruct
     public void init() {
